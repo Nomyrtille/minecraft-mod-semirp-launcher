@@ -35,8 +35,8 @@ Le pack est reconstruit et publié automatiquement par le serveur maison à chaq
 `master` qui touche `pack/` ou `tools/build-pack.sh`.
 
 Les installateurs sont publiés dans les [releases](https://github.com/Nomyrtille/minecraft-mod-semirp-launcher/releases)
-à chaque tag `vX.Y.Z`. Les joueurs les téléchargent sur https://pack.nomyrtille.com/telecharger
-(page dans `site/telecharger/`, voir [`docs/MYRTILLE_CITY.md`](docs/MYRTILLE_CITY.md)).
+à chaque tag `vX.Y.Z`. Les joueurs les téléchargent sur https://myrtillecity.nomyrtille.com/jouer/, l'assistant
+d'installation du site (dépôt `myrtille-city-site`).
 
 Avant l'ouverture au public, il reste :
 - l'approbation Mojang de l'application Azure (formulaire envoyé) ;

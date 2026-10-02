@@ -157,10 +157,10 @@ Le dépôt étant public, les minutes de GitHub Actions sont gratuites.
 
 ## 6. Page de téléchargement
 
-`site/telecharger/index.html` est la page donnée aux joueurs : https://pack.nomyrtille.com/telecharger.
-Elle détecte le système du visiteur, propose le bon installateur et explique le premier
-lancement d'un launcher non signé. Le serveur maison la republie à chaque fusion sur `master` qui
-touche `site/`, comme le pack.
+Les joueurs passent par l'assistant d'installation du site : https://myrtillecity.nomyrtille.com/jouer/
+(dépôt `myrtille-city-site`, fichier `src/pages/jouer.astro`). Il pointe vers
+`releases/latest/download/<nom>` : rien à changer à chaque version. L'ancienne adresse
+`pack.nomyrtille.com/telecharger` redirige vers lui.
 
 ## Récupérer les correctifs de Helios
 
