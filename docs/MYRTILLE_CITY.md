@@ -21,9 +21,9 @@ Azure : l'identifiant de Helios appartient à son auteur et ne doit pas être di
    annuaire **et** comptes Microsoft personnels, plateforme « Mobile and desktop applications »
    avec l'URI de redirection `https://login.microsoftonline.com/common/oauth2/nativeclient`, et un
    secret client (exigé par Microsoft, mais jamais utilisé ni copié).
-2. Remplacer `REPLACE_WITH_MYRTILLE_CITY_AZURE_CLIENT_ID` dans `app/assets/js/ipcconstants.js`
-   par l'« Application (client) ID ». Cet identifiant n'est pas un secret : il est lisible dans
-   tout launcher distribué.
+2. Mettre l'« Application (client) ID » dans `AZURE_CLIENT_ID`
+   (`app/assets/js/ipcconstants.js`) : c'est fait, `9d60b95b-110e-446c-85fe-d6d85b9a1852`. Cet
+   identifiant n'est pas un secret : il est lisible dans tout launcher distribué.
 3. Lancer `npm start` et **tenter une connexion** : elle échoue, c'est normal, mais Microsoft
    exige cette activité avant d'étudier la demande.
 4. Remplir le [formulaire de Mojang](https://aka.ms/mce-reviewappid) avec l'identifiant client et
@@ -81,9 +81,33 @@ Exemple de la partie propre au serveur (les modules sont générés par Nebula) 
 }
 ```
 
-Le dossier de travail de Nebula (les fichiers du pack) se range sur le serveur maison, pas dans ce
-dépôt public. À chaque changement du pack, augmenter `servers[].version` : le launcher revérifie
-alors tous les fichiers.
+### Construire le pack en une commande
+
+La liste des mods est versionnée dans [`pack/mods.tsv`](../pack/mods.tsv) : un changement de pack
+passe par une PR. [`tools/build-pack.sh`](../tools/build-pack.sh) fait le reste : il clone Nebula,
+crée le serveur Fabric, télécharge depuis Modrinth la dernière version publiée de chaque mod pour
+Minecraft 26.2, ajoute le resource pack et l'icône, remplit `servermeta.json`, génère le
+`distribution.json` et y ajoute Java 25.
+
+```bash
+ROOT=~/myrtille-pack BASE_URL=https://pack.<ton-domaine>/ SERVER_ADDRESS=<adresse-publique>:25565 \
+RESOURCE_PACK=~/MyrtilleCity-resourcepack.zip PACK_VERSION=1.0.0 ./tools/build-pack.sh
+```
+
+Prérequis : Node.js 22, Java 17 ou plus, git, curl et jq. Le script s'arrête si un mod n'a pas
+encore de version pour Minecraft 26.2 : on ne monte pas de version tant que le pack n'est pas
+complet.
+
+Le dossier `ROOT` (les fichiers du pack) se range sur le serveur maison, pas dans ce dépôt public.
+À chaque changement du pack, relancer le script avec un `PACK_VERSION` plus grand : le launcher
+revérifie alors tous les fichiers.
+
+## Images du launcher
+
+Le logo (une grappe de myrtilles), les icônes, l'écran de chargement et les fonds (la ville la nuit)
+sont dessinés par [`tools/branding.py`](../tools/branding.py), sans asset extérieur :
+`pip install pillow && python tools/branding.py`. Pour passer aux visuels définitifs, remplacer les
+fichiers en gardant leurs noms (`app/assets/images/`, `build/icon.png`).
 
 ## 3. Héberger le pack
 
