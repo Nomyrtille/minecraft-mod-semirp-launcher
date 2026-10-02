@@ -1,0 +1,30 @@
+# Dependabot : mises à jour de sécurité au fil de l'eau, et de version chaque lundi (groupées pour limiter
+# le nombre de PR). Les PR passent la CI comme les autres ; c'est toujours un humain qui fusionne.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Paris
+    open-pull-requests-limit: 5
+    groups:
+      npm-mineures:
+        update-types: [minor, patch]
+    ignore:
+      # Electron : une version majeure se teste à la main (ruptures d'API), voir la PR de durcissement.
+      - dependency-name: electron
+        update-types: [version-update:semver-major]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Paris
+    open-pull-requests-limit: 5
+    groups:
+      github-actions-mineures:
+        update-types: [minor, patch]

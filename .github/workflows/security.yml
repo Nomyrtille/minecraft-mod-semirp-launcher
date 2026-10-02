@@ -1,0 +1,37 @@
+name: Sécurité
+
+# Dépendances vulnérables (OSV-Scanner, base de Google) et analyse du code (Semgrep) : à chaque push, à chaque PR
+# et chaque lundi, pour attraper une faille publiée après coup. Toutes les actions sont épinglées par empreinte.
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "30 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dependencies:
+    name: Dépendances vulnérables
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: OSV-Scanner
+        uses: google/osv-scanner-action/osv-scanner-action@a345acffa64b0eaede81a3d9aae6141214d9c8fc # v2.6.0
+        with:
+          scan-args: |-
+            -r ./
+
+  code:
+    name: Analyse du code
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container:
+      image: semgrep/semgrep@sha256:32e459968daabe7ab86968184a29109b9564aa00392401156f9788452b42786b # 1.178.0
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Semgrep
+        run: semgrep scan --config p/default --config p/secrets --severity ERROR --error --metrics=off
