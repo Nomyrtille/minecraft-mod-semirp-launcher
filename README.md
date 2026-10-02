@@ -40,7 +40,6 @@ Les installateurs sont publiés dans les [releases](https://github.com/Nomyrtill
 
 Avant l'ouverture au public, il reste :
 - l'approbation Mojang de l'application Azure (formulaire envoyé) ;
-- le lien d'invitation Discord dans `app/assets/lang/_custom.toml` ;
 - la signature de code Windows et macOS.
 
 La marche à suivre complète (application Azure, pack Fabric avec Nebula, publication, signature)
