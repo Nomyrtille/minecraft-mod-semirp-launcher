@@ -3,7 +3,7 @@ name: Build
 # - push sur une branche ou lancement à la main : construit les installateurs et les garde
 #   7 jours en artefacts du run (pour tester), sans rien publier ;
 # - tag vX.Y.Z : construit et publie les installateurs dans la release GitHub du tag, d'où les
-#   joueurs les téléchargent (https://pack.nomyrtille.com/telecharger) et d'où les launchers
+#   joueurs les téléchargent (https://myrtillecity.nomyrtille.com/jouer/) et d'où les launchers
 #   installés tirent leurs mises à jour.
 on:
   push:
