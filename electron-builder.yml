@@ -1,8 +1,8 @@
-appId: 'helioslauncher'
-productName: 'Helios Launcher'
-artifactName: '${productName}-setup-${version}.${ext}'
+appId: 'fr.myrtillecity.launcher'
+productName: 'Myrtille City'
+artifactName: 'MyrtilleCity-setup-${version}.${ext}'
 
-copyright: 'Copyright © 2018-2026 Daniel Scalzi'
+copyright: 'Copyright © 2026 Myrtille City. Based on Helios Launcher, Copyright © 2017-2026 Daniel Scalzi (MIT).'
 
 asar: true
 compression: 'maximum'
@@ -33,16 +33,16 @@ mac:
       arch:
         - 'x64'
         - 'arm64'
-  artifactName: '${productName}-setup-${version}-${arch}.${ext}'
+  artifactName: 'MyrtilleCity-setup-${version}-${arch}.${ext}'
   category: 'public.app-category.games'
 
 # Linux Configuration
 linux: 
   target: 'AppImage'
-  maintainer: 'Daniel Scalzi'
-  vendor: 'Daniel Scalzi'
-  synopsis: 'Modded Minecraft Launcher'
-  description: 'Custom launcher which allows users to join modded servers. All mods, configurations, and updates are handled automatically.'
+  maintainer: 'Myrtille City'
+  vendor: 'Myrtille City'
+  synopsis: 'Launcher du serveur Myrtille City'
+  description: 'Launcher du serveur Minecraft semi-RP Myrtille City. Les mods, la configuration et les mises à jour sont gérés automatiquement.'
   category: 'Game'
 
 
