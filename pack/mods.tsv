@@ -1,0 +1,6 @@
+# Mods du pack client Myrtille City (Fabric). Un changement passe par une PR.
+# Règle : aucun mod qui donne un avantage en jeu (pas de minimap, radar, aide au combat, x-ray).
+# slug Modrinth	dossier Nebula	pourquoi
+fabric-api	required	dépendance de Simple Voice Chat
+simple-voice-chat	required	chat vocal de proximité (même version majeure que le plugin serveur)
+sodium	optionalon	performances ; le joueur peut le désactiver dans les réglages du launcher
