@@ -8,7 +8,6 @@ mediaGitHubURL = "https://github.com/Nomyrtille/minecraft-mod-semirp-launcher"
 mediaXURL = "#"
 mediaInstagramURL = "#"
 mediaYouTubeURL = "#"
-# TODO: invitation link of the Myrtille City Discord server.
 mediaDiscordURL = "https://discord.gg/ZdCGjHKZA"
 
 [ejs.settings]
