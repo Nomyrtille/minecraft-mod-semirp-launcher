@@ -115,8 +115,8 @@ Le `distribution.json` et les fichiers du pack sont servis en HTTPS par le serve
 le tunnel Cloudflare déjà prévu pour le site (aucun port ouvert sur la box). Un simple serveur de
 fichiers statiques suffit (Caddy ou nginx dans Docker).
 
-Une fois le nom d'hôte choisi, remplacer `https://pack.myrtille-city.invalid/distribution.json`
-dans `app/assets/js/distromanager.js`. Le launcher garde une copie locale du dernier index : un
+Le pack est publié sur `https://pack.nomyrtille.com/distribution.json`, l'adresse inscrite dans
+`app/assets/js/distromanager.js` (`REMOTE_DISTRO_URL`). Le launcher garde une copie locale du dernier index : un
 joueur déjà installé peut lancer le jeu même si l'hébergement du pack est coupé, mais pas un
 nouveau joueur.
 
