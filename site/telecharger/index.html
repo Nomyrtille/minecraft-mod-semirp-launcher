@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Télécharger Myrtille City</title>
+<meta name="description" content="Le launcher du serveur Minecraft semi-RP Myrtille City, pour Windows, macOS et Linux.">
+<link rel="icon" href="icon.png">
+<style>
+  :root {
+    --navy: #141630;
+    --navy-2: #1d2046;
+    --berry: #4a3fa8;
+    --berry-light: #8a80de;
+    --leaf: #56aa60;
+    --gold: #ecbe5c;
+    --text: #ecebff;
+    --muted: #a9a6d6;
+    --line: rgba(138, 128, 222, .25);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: radial-gradient(1200px 600px at 50% -10%, #2c2470 0%, var(--navy) 60%) fixed, var(--navy);
+    min-height: 100vh;
+  }
+  main { max-width: 880px; margin: 0 auto; padding: 48px 16px 64px; }
+  header { display: flex; align-items: center; gap: 18px; margin-bottom: 28px; }
+  header img { width: 84px; height: 84px; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,.35); }
+  h1 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.3rem); letter-spacing: .5px; }
+  .tagline { margin: 4px 0 0; color: var(--muted); }
+  .lead { font-size: 1.08rem; margin: 0 0 28px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .card {
+    background: var(--navy-2); border: 1px solid var(--line); border-radius: 14px; padding: 18px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .card.primary { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold) inset; }
+  .card h2 { margin: 0; font-size: 1.15rem; }
+  .card .hint { margin: 0; color: var(--muted); font-size: .92rem; }
+  .btn {
+    display: block; text-align: center; text-decoration: none; font-weight: 600;
+    padding: 11px 14px; border-radius: 10px; background: var(--berry); color: #fff;
+  }
+  .btn:hover, .btn:focus-visible { background: var(--berry-light); color: var(--navy); }
+  .btn.alt { background: transparent; border: 1px solid var(--line); color: var(--text); }
+  .badge { color: var(--gold); font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; }
+  section { margin-top: 40px; }
+  section h2 { font-size: 1.3rem; margin: 0 0 12px; }
+  ol, ul { padding-left: 1.3rem; margin: 0; }
+  li { margin: 6px 0; }
+  code {
+    background: rgba(0,0,0,.35); border: 1px solid var(--line); border-radius: 6px;
+    padding: 1px 6px; font-size: .92em; word-break: break-all;
+  }
+  details { background: var(--navy-2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; margin: 10px 0; }
+  summary { cursor: pointer; font-weight: 600; }
+  details p, details ol { margin-top: 10px; }
+  .note { border-left: 3px solid var(--leaf); padding: 8px 14px; background: rgba(86,170,96,.08); border-radius: 0 10px 10px 0; }
+  a { color: var(--berry-light); }
+  footer { margin-top: 48px; color: var(--muted); font-size: .85rem; border-top: 1px solid var(--line); padding-top: 18px; }
+  footer strong { color: var(--text); font-weight: 600; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="icon.png" alt="" width="84" height="84">
+    <div>
+      <h1>Myrtille City</h1>
+      <p class="tagline">Serveur Minecraft semi-RP · civil, police ou mafia</p>
+    </div>
+  </header>
+
+  <p class="lead">Installe le launcher : il télécharge Minecraft, les mods du serveur et ses mises à jour tout seul, puis te connecte directement à la ville.</p>
+
+  <div class="grid">
+    <div class="card" data-os="windows">
+      <span class="badge" hidden>Ton système</span>
+      <h2>Windows</h2>
+      <p class="hint">Windows 10 ou 11, 64 bits</p>
+      <a class="btn" href="https://github.com/Nomyrtille/minecraft-mod-semirp-launcher/releases/latest/download/MyrtilleCity-Setup.exe">Télécharger (.exe)</a>
+    </div>
+    <div class="card" data-os="mac">
+      <span class="badge" hidden>Ton système</span>
+      <h2>macOS</h2>
+      <p class="hint">Mac Apple Silicon (M1 et suivants) ou Intel</p>
+      <a class="btn" href="https://github.com/Nomyrtille/minecraft-mod-semirp-launcher/releases/latest/download/MyrtilleCity-arm64.dmg">Apple Silicon (.dmg)</a>
+      <a class="btn alt" href="https://github.com/Nomyrtille/minecraft-mod-semirp-launcher/releases/latest/download/MyrtilleCity-x64.dmg">Intel (.dmg)</a>
+    </div>
+    <div class="card" data-os="linux">
+      <span class="badge" hidden>Ton système</span>
+      <h2>Linux</h2>
+      <p class="hint">AppImage, toutes distributions 64 bits</p>
+      <a class="btn" href="https://github.com/Nomyrtille/minecraft-mod-semirp-launcher/releases/latest/download/MyrtilleCity.AppImage">Télécharger (.AppImage)</a>
+    </div>
+  </div>
+
+  <section>
+    <h2>Ce qu'il te faut</h2>
+    <ul>
+      <li>Un compte Microsoft qui possède <strong>Minecraft: Java Edition</strong>. Les comptes non officiels ne peuvent pas se connecter.</li>
+      <li>Environ 2 Go d'espace disque et 4 Go de mémoire vive.</li>
+      <li>Rien d'autre : Java et les mods sont installés par le launcher.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Premier lancement</h2>
+    <p class="note">Le launcher n'est pas encore signé numériquement : ton système va te demander une confirmation la première fois. C'est normal pendant la bêta.</p>
+    <details data-os="windows">
+      <summary>Windows : « Windows a protégé votre ordinateur »</summary>
+      <ol>
+        <li>Clique sur <strong>Informations complémentaires</strong>.</li>
+        <li>Puis sur <strong>Exécuter quand même</strong>, et suis l'installation.</li>
+      </ol>
+    </details>
+    <details data-os="mac">
+      <summary>macOS : « impossible d'ouvrir » ou « l'app est endommagée »</summary>
+      <ol>
+        <li>Ouvre le .dmg et glisse <strong>Myrtille City</strong> dans <strong>Applications</strong>.</li>
+        <li>Dans Applications, fais <strong>clic droit → Ouvrir</strong>, puis confirme <strong>Ouvrir</strong>.</li>
+        <li>Si macOS dit que l'app est endommagée, ouvre le Terminal et tape :<br><code>xattr -cr "/Applications/Myrtille City.app"</code></li>
+      </ol>
+    </details>
+    <details data-os="linux">
+      <summary>Linux : rendre l'AppImage exécutable</summary>
+      <ol>
+        <li><code>chmod +x MyrtilleCity.AppImage</code></li>
+        <li><code>./MyrtilleCity.AppImage</code></li>
+      </ol>
+    </details>
+  </section>
+
+  <section>
+    <h2>En jeu</h2>
+    <ol>
+      <li>Connecte-toi avec ton compte Microsoft dans le launcher, puis clique sur <strong>Jouer</strong>.</li>
+      <li>À ton arrivée, marche jusqu'à l'<strong>Hôtel de ville</strong> et tape <code>/inscription &lt;métier&gt;</code> pour recevoir tes papiers et ta parcelle.</li>
+      <li>Le serveur est ouvert de 11 h à 3 h (heure de Paris).</li>
+    </ol>
+  </section>
+
+  <footer>
+    <p><strong>NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.</strong></p>
+    <p>Launcher libre basé sur <a href="https://github.com/dscalzi/HeliosLauncher">Helios Launcher</a> © Daniel Scalzi (licence MIT) · <a href="https://github.com/Nomyrtille/minecraft-mod-semirp-launcher">code source</a> · <a href="https://github.com/Nomyrtille/minecraft-mod-semirp-launcher/releases">toutes les versions</a></p>
+  </footer>
+</main>
+<script>
+  // Met en avant le système du visiteur et ouvre l'aide qui le concerne. Sans JavaScript, tout reste visible.
+  (function () {
+    var ua = navigator.userAgent || '';
+    var os = /Windows/i.test(ua) ? 'windows' : /Mac OS X|Macintosh/i.test(ua) ? 'mac'
+      : /Linux/i.test(ua) && !/Android/i.test(ua) ? 'linux' : null;
+    if (!os) { return; }
+    document.querySelectorAll('.card[data-os="' + os + '"]').forEach(function (c) {
+      c.classList.add('primary');
+      var b = c.querySelector('.badge'); if (b) { b.hidden = false; }
+      c.parentNode.insertBefore(c, c.parentNode.firstChild);
+    });
+    document.querySelectorAll('details[data-os="' + os + '"]').forEach(function (d) { d.open = true; });
+  })();
+</script>
+</body>
+</html>

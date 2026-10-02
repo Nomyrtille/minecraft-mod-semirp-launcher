@@ -1,6 +1,16 @@
 appId: 'fr.myrtillecity.launcher'
 productName: 'Myrtille City'
-artifactName: 'MyrtilleCity-setup-${version}.${ext}'
+# Noms sans numéro de version : la page de téléchargement pointe vers
+# releases/latest/download/<nom>, toujours la dernière version publiée.
+artifactName: 'MyrtilleCity-Setup.${ext}'
+
+# Les installateurs vont dans la release GitHub du tag vX.Y.Z (voir docs/MYRTILLE_CITY.md) ;
+# electron-updater y cherche aussi les mises à jour des launchers installés.
+publish:
+  provider: 'github'
+  owner: 'Nomyrtille'
+  repo: 'minecraft-mod-semirp-launcher'
+  releaseType: 'release'
 
 copyright: 'Copyright © 2026 Myrtille City. Based on Helios Launcher, Copyright © 2017-2026 Daniel Scalzi (MIT).'
 
@@ -8,7 +18,7 @@ asar: true
 compression: 'maximum'
 
 files:
-  - '!{dist,.gitignore,.vscode,docs,dev-app-update.yml,.nvmrc,eslint.config.mjs,tools,pack,.cache}'
+  - '!{dist,.gitignore,.vscode,docs,dev-app-update.yml,.nvmrc,eslint.config.mjs,tools,pack,site,.cache}'
 
 extraResources:
   - 'libraries'
@@ -33,12 +43,13 @@ mac:
       arch:
         - 'x64'
         - 'arm64'
-  artifactName: 'MyrtilleCity-setup-${version}-${arch}.${ext}'
+  artifactName: 'MyrtilleCity-${arch}.${ext}'
   category: 'public.app-category.games'
 
 # Linux Configuration
 linux: 
   target: 'AppImage'
+  artifactName: 'MyrtilleCity.${ext}'
   maintainer: 'Myrtille City'
   vendor: 'Myrtille City'
   synopsis: 'Launcher du serveur Myrtille City'
