@@ -26,13 +26,13 @@ npm run dist    # construit l'installateur du système courant dans dist/
 
 ## Ce qui reste à faire avant la première version
 
-Tant que ces deux valeurs restent des valeurs d'attente, le launcher démarre mais ne peut ni
-charger le pack ni connecter un compte :
-
-| Valeur | Fichier | Quoi mettre |
+| Valeur | Fichier | État |
 |---|---|---|
-| `AZURE_CLIENT_ID` | `app/assets/js/ipcconstants.js` | l'identifiant de notre application Azure, dès sa création (la connexion marche après l'approbation de Mojang) |
-| `REMOTE_DISTRO_URL` | `app/assets/js/distromanager.js` | l'adresse publique du `distribution.json`, derrière le tunnel Cloudflare |
+| `AZURE_CLIENT_ID` | `app/assets/js/ipcconstants.js` | renseigné ; la connexion Minecraft marchera après l'approbation de Mojang |
+| `REMOTE_DISTRO_URL` | `app/assets/js/distromanager.js` | valeur d'attente : l'adresse publique du `distribution.json`, derrière le tunnel Cloudflare |
+
+Tant que `REMOTE_DISTRO_URL` reste une valeur d'attente, le launcher démarre mais ne peut pas
+charger le pack.
 
 La marche à suivre complète (application Azure, pack Fabric avec Nebula, publication, signature)
 est dans [`docs/MYRTILLE_CITY.md`](docs/MYRTILLE_CITY.md).

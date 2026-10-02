@@ -1,8 +1,6 @@
-// Microsoft (Azure) application ID of the Myrtille City launcher.
-// TODO: replace with our own Azure application ID once Mojang has approved it.
-// The upstream Helios ID must not be shipped under our name.
-// See docs/MYRTILLE_CITY.md and docs/MicrosoftAuth.md.
-exports.AZURE_CLIENT_ID = 'REPLACE_WITH_MYRTILLE_CITY_AZURE_CLIENT_ID'
+// Microsoft (Azure) application ID of the Myrtille City launcher. Not a secret: it ships in every
+// build. Minecraft login works once Mojang has approved it (see docs/MYRTILLE_CITY.md).
+exports.AZURE_CLIENT_ID = '9d60b95b-110e-446c-85fe-d6d85b9a1852'
 
 
 // Opcodes

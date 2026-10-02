@@ -21,9 +21,9 @@ Azure : l'identifiant de Helios appartient à son auteur et ne doit pas être di
    annuaire **et** comptes Microsoft personnels, plateforme « Mobile and desktop applications »
    avec l'URI de redirection `https://login.microsoftonline.com/common/oauth2/nativeclient`, et un
    secret client (exigé par Microsoft, mais jamais utilisé ni copié).
-2. Remplacer `REPLACE_WITH_MYRTILLE_CITY_AZURE_CLIENT_ID` dans `app/assets/js/ipcconstants.js`
-   par l'« Application (client) ID ». Cet identifiant n'est pas un secret : il est lisible dans
-   tout launcher distribué.
+2. Mettre l'« Application (client) ID » dans `AZURE_CLIENT_ID`
+   (`app/assets/js/ipcconstants.js`) : c'est fait, `9d60b95b-110e-446c-85fe-d6d85b9a1852`. Cet
+   identifiant n'est pas un secret : il est lisible dans tout launcher distribué.
 3. Lancer `npm start` et **tenter une connexion** : elle échoue, c'est normal, mais Microsoft
    exige cette activité avant d'étudier la demande.
 4. Remplir le [formulaire de Mojang](https://aka.ms/mce-reviewappid) avec l'identifiant client et
