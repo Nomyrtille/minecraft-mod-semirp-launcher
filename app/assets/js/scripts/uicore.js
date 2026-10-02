@@ -197,7 +197,10 @@ document.addEventListener('readystatechange', function () {
  */
 $(document).on('click', 'a[href^="http"]', function(event) {
     event.preventDefault()
-    shell.openExternal(this.href)
+    // Sécurité : seuls les liens https s'ouvrent, dans le navigateur.
+    if (this.protocol === 'https:') {
+        shell.openExternal(this.href)
+    }
 })
 
 /**
