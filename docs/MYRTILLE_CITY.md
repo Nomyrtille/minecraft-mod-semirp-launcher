@@ -1,0 +1,137 @@
+# Mettre le launcher en service pour Myrtille City
+
+Ce document liste ce qu'il faut faire, dans l'ordre, pour passer du fork personnalisé à un
+launcher que les joueurs installent. Les étapes 1 et 4 ne peuvent être faites que par le
+propriétaire du compte (Microsoft, Apple, achat de certificat).
+
+| Étape | Qui | Bloque |
+|---|---|---|
+| 1. Application Azure + approbation Mojang | propriétaire | la connexion des comptes |
+| 2. Pack Fabric et `distribution.json` (Nebula) | équipe | le téléchargement du jeu |
+| 3. Hébergement du pack derrière le tunnel Cloudflare | propriétaire du serveur maison | le téléchargement du jeu |
+| 4. Signature de code (Windows, macOS) | propriétaire | les alertes « application inconnue » |
+| 5. Publication d'une version | équipe | la distribution aux joueurs |
+
+## 1. Application Azure et approbation Mojang
+
+Le launcher connecte les joueurs avec leur compte Microsoft. Il lui faut **sa propre** application
+Azure : l'identifiant de Helios appartient à son auteur et ne doit pas être diffusé sous notre nom.
+
+1. Créer l'application en suivant [`MicrosoftAuth.md`](MicrosoftAuth.md) : comptes de tout
+   annuaire **et** comptes Microsoft personnels, plateforme « Mobile and desktop applications »
+   avec l'URI de redirection `https://login.microsoftonline.com/common/oauth2/nativeclient`, et un
+   secret client (exigé par Microsoft, mais jamais utilisé ni copié).
+2. Remplacer `REPLACE_WITH_MYRTILLE_CITY_AZURE_CLIENT_ID` dans `app/assets/js/ipcconstants.js`
+   par l'« Application (client) ID ». Cet identifiant n'est pas un secret : il est lisible dans
+   tout launcher distribué.
+3. Lancer `npm start` et **tenter une connexion** : elle échoue, c'est normal, mais Microsoft
+   exige cette activité avant d'étudier la demande.
+4. Remplir le [formulaire de Mojang](https://aka.ms/mce-reviewappid) avec l'identifiant client et
+   l'identifiant de tenant (page « Overview » du portail Azure). Après l'approbation, compter
+   jusqu'à 24 h avant que la connexion fonctionne.
+
+## 2. Le pack client et son `distribution.json`
+
+Le `distribution.json` décrit le serveur et tous les fichiers à installer. On le produit avec
+[Nebula](https://github.com/dscalzi/Nebula) (MIT), qui calcule les tailles et les empreintes.
+
+Contenu du pack :
+
+| Élément | Type de module | Remarque |
+|---|---|---|
+| Fabric Loader pour Minecraft 26.2 | `Fabric` | Nebula génère aussi son `VersionManifest` |
+| Fabric API | `FabricMod` (obligatoire) | dépendance de Simple Voice Chat |
+| Simple Voice Chat | `FabricMod` (obligatoire) | même version majeure que le plugin du serveur |
+| Un mod d'optimisation (Sodium) | `FabricMod` (facultatif) | le joueur peut le désactiver |
+| Resource pack Myrtille City | `File` | vers `resourcepacks/` |
+
+Points à ne pas manquer dans l'entrée du serveur :
+
+- **Java 25.** Minecraft 26.x exige Java 25, mais le launcher choisit Java 21 par défaut pour
+  toute version postérieure à 1.20.5. Il faut donc l'indiquer :
+  ```json
+  "javaOptions": { "supported": ">=25.x", "suggestedMajor": 25 }
+  ```
+- `"minecraftVersion": "26.2"`, `"mainServer": true`, `"autoconnect": true`.
+- `"address"` : l'adresse publique du serveur Minecraft. Elle figure dans le `distribution.json`
+  servi aux joueurs, pas dans ce dépôt.
+- Le champ `discord` (Rich Presence) est facultatif : il faut une application Discord dédiée.
+
+Exemple de la partie propre au serveur (les modules sont générés par Nebula) :
+
+```json
+{
+  "version": "1.0.0",
+  "rss": "",
+  "servers": [
+    {
+      "id": "myrtille-city-s1",
+      "name": "Myrtille City",
+      "description": "Serveur semi-RP : civil, police ou mafia. Saison 1.",
+      "icon": "https://<hôte-du-pack>/files/icon.png",
+      "version": "1.0.0",
+      "address": "<adresse-publique>:25565",
+      "minecraftVersion": "26.2",
+      "mainServer": true,
+      "autoconnect": true,
+      "javaOptions": { "supported": ">=25.x", "suggestedMajor": 25 },
+      "modules": []
+    }
+  ]
+}
+```
+
+Le dossier de travail de Nebula (les fichiers du pack) se range sur le serveur maison, pas dans ce
+dépôt public. À chaque changement du pack, augmenter `servers[].version` : le launcher revérifie
+alors tous les fichiers.
+
+## 3. Héberger le pack
+
+Le `distribution.json` et les fichiers du pack sont servis en HTTPS par le serveur maison, derrière
+le tunnel Cloudflare déjà prévu pour le site (aucun port ouvert sur la box). Un simple serveur de
+fichiers statiques suffit (Caddy ou nginx dans Docker).
+
+Une fois le nom d'hôte choisi, remplacer `https://pack.myrtille-city.invalid/distribution.json`
+dans `app/assets/js/distromanager.js`. Le launcher garde une copie locale du dernier index : un
+joueur déjà installé peut lancer le jeu même si l'hébergement du pack est coupé, mais pas un
+nouveau joueur.
+
+## 4. Signature de code
+
+Sans signature, Windows SmartScreen affiche « Windows a protégé votre ordinateur » et macOS refuse
+d'ouvrir l'application sans clic droit → Ouvrir.
+
+- **Windows** : un certificat de signature de code (ou Azure Trusted Signing). À fournir à
+  electron-builder par les secrets du dépôt `CSC_LINK` et `CSC_KEY_PASSWORD`.
+- **macOS** : un compte Apple Developer (payant, par an) pour signer et notariser. Secrets
+  `CSC_LINK`, `CSC_KEY_PASSWORD`, `APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD`, `APPLE_TEAM_ID`.
+- **Linux** : l'AppImage n'a pas besoin de signature.
+
+Pour le test fermé, on peut s'en passer et expliquer la manipulation aux testeurs.
+
+## 5. Publier une version
+
+Le workflow `.github/workflows/build.yml` construit les installateurs Windows, macOS et Linux à
+chaque push. electron-builder les envoie dans une **release brouillon** dont la version correspond
+à celle de `package.json`.
+
+1. Sur une branche, augmenter `version` dans `package.json` (ex. `0.1.0` → `0.2.0`), puis faire
+   relire et fusionner la PR.
+2. Sur GitHub, créer une release brouillon nommée `v0.2.0` ; le build de `master` y dépose les
+   fichiers `MyrtilleCity-setup-0.2.0.exe`, `-x64.dmg`, `-arm64.dmg` et `.AppImage`.
+3. Publier la release. Les launchers déjà installés se mettent à jour seuls (sous macOS, le
+   joueur télécharge le nouveau dmg depuis le launcher).
+
+Le dépôt étant public, les minutes de GitHub Actions sont gratuites.
+
+## Récupérer les correctifs de Helios
+
+```bash
+git remote add upstream https://github.com/dscalzi/HeliosLauncher.git   # une fois
+git fetch upstream
+git checkout -b chore/sync-upstream
+git merge upstream/master
+```
+
+Conflits attendus : `package.json`, `electron-builder.yml` et `app/assets/lang/_custom.toml`.
+Garder nos valeurs, puis reporter dans `fr_FR.toml` les clés ajoutées à `en_US.toml`.
