@@ -55,14 +55,18 @@ grep -v '^#' pack/mods.tsv | while IFS=$'\t' read -r slug folder _; do
     [ -n "$slug" ] || continue
     versions=$(curl -sfG "https://api.modrinth.com/v2/project/$slug/version" \
         --data-urlencode "game_versions=[\"$MC_VERSION\"]" --data-urlencode 'loaders=["fabric"]')
-    url=$(jq -r 'first(.[] | select(.version_type == "release")) // {files: []}
-                 | (first(.files[] | select(.primary)) // .files[0] // {}) | .url // empty' <<<"${versions:-[]}")
+    file=$(jq -c 'first(.[] | select(.version_type == "release")) // {files: []}
+                  | first(.files[] | select(.primary)) // .files[0] // {}' <<<"${versions:-[]}")
+    url=$(jq -r '.url // empty' <<<"$file")
+    # Le nom vient de Modrinth et pas de l'URL : l'URL est encodée (« + » → « %2B ») et Nebula
+    # publierait alors un lien vers un fichier introuvable.
+    name=$(jq -r '.filename // empty' <<<"$file")
     if [ -z "$url" ]; then
         echo "Pas de version publiée de $slug pour Fabric $MC_VERSION : on ne monte pas de version tant que le pack n'est pas complet." >&2
         exit 1
     fi
     echo "  $slug → $folder"
-    curl -sfL "$url" -o "$SERVER_DIR/fabricmods/$folder/$(basename "$url")"
+    curl -sfL "$url" -o "$SERVER_DIR/fabricmods/$folder/${name:-$(basename "$url")}"
 done
 
 if [ -n "${RESOURCE_PACK:-}" ]; then
