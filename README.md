@@ -29,10 +29,10 @@ npm run dist    # construit l'installateur du système courant dans dist/
 | Valeur | Fichier | État |
 |---|---|---|
 | `AZURE_CLIENT_ID` | `app/assets/js/ipcconstants.js` | renseigné ; la connexion Minecraft marchera après l'approbation de Mojang |
-| `REMOTE_DISTRO_URL` | `app/assets/js/distromanager.js` | valeur d'attente : l'adresse publique du `distribution.json`, derrière le tunnel Cloudflare |
+| `REMOTE_DISTRO_URL` | `app/assets/js/distromanager.js` | renseigné : `https://pack.nomyrtille.com/distribution.json`, servi derrière le tunnel Cloudflare |
 
-Tant que `REMOTE_DISTRO_URL` reste une valeur d'attente, le launcher démarre mais ne peut pas
-charger le pack.
+Le pack est reconstruit et publié automatiquement par le serveur maison à chaque fusion sur
+`master` qui touche `pack/` ou `tools/build-pack.sh`.
 
 La marche à suivre complète (application Azure, pack Fabric avec Nebula, publication, signature)
 est dans [`docs/MYRTILLE_CITY.md`](docs/MYRTILLE_CITY.md).
