@@ -149,8 +149,10 @@ Les fichiers portent toujours le même nom (`MyrtilleCity-Setup.exe`, `MyrtilleC
 
 1. Sur une branche, augmenter `version` dans `package.json` (ex. `0.1.0` → `0.2.0`), puis faire
    relire et fusionner la PR.
-2. Créer et pousser le tag sur `master` : `git tag v0.2.0 && git push origin v0.2.0`.
-3. Le build publie la release. Les launchers Windows et Linux déjà installés se mettent à jour
+2. C'est tout : le serveur maison voit la nouvelle version, pousse le tag `v0.2.0`, et le build
+   publie la release. Le résultat est annoncé dans `#logs` sur Discord. Un tag poussé à la main
+   (`git tag v0.2.0 && git push origin v0.2.0`) marche aussi.
+3. La release est publique dès la fin du build. Les launchers Windows et Linux déjà installés se mettent à jour
    seuls ; sous macOS, le launcher propose de télécharger le nouveau dmg.
 
 Le dépôt étant public, les minutes de GitHub Actions sont gratuites.
