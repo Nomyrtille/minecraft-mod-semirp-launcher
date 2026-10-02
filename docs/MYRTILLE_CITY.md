@@ -159,8 +159,7 @@ Le dépôt étant public, les minutes de GitHub Actions sont gratuites.
 
 Les joueurs passent par l'assistant d'installation du site : https://myrtillecity.nomyrtille.com/jouer/
 (dépôt `myrtille-city-site`, fichier `src/pages/jouer.astro`). Il pointe vers
-`releases/latest/download/<nom>` : rien à changer à chaque version. L'ancienne adresse
-`pack.nomyrtille.com/telecharger` redirige vers lui.
+`releases/latest/download/<nom>` : rien à changer à chaque version.
 
 ## Récupérer les correctifs de Helios
 
