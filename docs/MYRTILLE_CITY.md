@@ -135,18 +135,32 @@ Pour le test fermé, on peut s'en passer et expliquer la manipulation aux testeu
 
 ## 5. Publier une version
 
-Le workflow `.github/workflows/build.yml` construit les installateurs Windows, macOS et Linux à
-chaque push. electron-builder les envoie dans une **release brouillon** dont la version correspond
-à celle de `package.json`.
+Le workflow `.github/workflows/build.yml` construit les installateurs Windows, macOS (Intel et
+Apple Silicon) et Linux :
+
+- **à chaque push** sur une branche, ou lancé à la main (Actions → Build → Run workflow) : les
+  installateurs sont gardés 7 jours en artefacts du run, pour tester. Rien n'est publié ;
+- **sur un tag `vX.Y.Z`** : ils sont publiés dans la release GitHub du tag. Le tag doit
+  correspondre à `version` dans `package.json`, sinon le build s'arrête.
+
+Les fichiers portent toujours le même nom (`MyrtilleCity-Setup.exe`, `MyrtilleCity-arm64.dmg`,
+`MyrtilleCity-x64.dmg`, `MyrtilleCity.AppImage`). La page de téléchargement pointe donc vers
+`releases/latest/download/<nom>` et sert toujours la dernière version.
 
 1. Sur une branche, augmenter `version` dans `package.json` (ex. `0.1.0` → `0.2.0`), puis faire
    relire et fusionner la PR.
-2. Sur GitHub, créer une release brouillon nommée `v0.2.0` ; le build de `master` y dépose les
-   fichiers `MyrtilleCity-setup-0.2.0.exe`, `-x64.dmg`, `-arm64.dmg` et `.AppImage`.
-3. Publier la release. Les launchers déjà installés se mettent à jour seuls (sous macOS, le
-   joueur télécharge le nouveau dmg depuis le launcher).
+2. Créer et pousser le tag sur `master` : `git tag v0.2.0 && git push origin v0.2.0`.
+3. Le build publie la release. Les launchers Windows et Linux déjà installés se mettent à jour
+   seuls ; sous macOS, le launcher propose de télécharger le nouveau dmg.
 
 Le dépôt étant public, les minutes de GitHub Actions sont gratuites.
+
+## 6. Page de téléchargement
+
+`site/telecharger/index.html` est la page donnée aux joueurs : https://pack.nomyrtille.com/telecharger.
+Elle détecte le système du visiteur, propose le bon installateur et explique le premier
+lancement d'un launcher non signé. Le serveur maison la republie à chaque fusion sur `master` qui
+touche `site/`, comme le pack.
 
 ## Récupérer les correctifs de Helios
 

@@ -34,6 +34,15 @@ npm run dist    # construit l'installateur du système courant dans dist/
 Le pack est reconstruit et publié automatiquement par le serveur maison à chaque fusion sur
 `master` qui touche `pack/` ou `tools/build-pack.sh`.
 
+Les installateurs sont publiés dans les [releases](https://github.com/Nomyrtille/minecraft-mod-semirp-launcher/releases)
+à chaque tag `vX.Y.Z`. Les joueurs les téléchargent sur https://pack.nomyrtille.com/telecharger
+(page dans `site/telecharger/`, voir [`docs/MYRTILLE_CITY.md`](docs/MYRTILLE_CITY.md)).
+
+Avant l'ouverture au public, il reste :
+- l'approbation Mojang de l'application Azure (formulaire envoyé) ;
+- le lien d'invitation Discord dans `app/assets/lang/_custom.toml` ;
+- la signature de code Windows et macOS.
+
 La marche à suivre complète (application Azure, pack Fabric avec Nebula, publication, signature)
 est dans [`docs/MYRTILLE_CITY.md`](docs/MYRTILLE_CITY.md).
 
