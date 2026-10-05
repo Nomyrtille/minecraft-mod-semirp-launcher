@@ -4,6 +4,9 @@
 #   ROOT=~/myrtille-pack BASE_URL=https://pack.exemple.fr/ SERVER_ADDRESS=jeu.exemple.fr:25565 \
 #   RESOURCE_PACK=~/MyrtilleCity-resourcepack.zip ./tools/build-pack.sh
 #
+# LOCAL_MODS (facultatif) : dossier de mods construits sur la machine, ajoutés en « required » à côté de ceux de
+# Modrinth. C'est la voie du mod maison myrtille-city-mod (dépôt privé : pas de téléchargement public possible).
+#
 # Prérequis : Node.js 22, Java 17+, git, curl, jq. Réseau : github.com, api.modrinth.com,
 # cdn.modrinth.com, meta.fabricmc.net, maven.fabricmc.net, piston-meta.mojang.com.
 # Le dossier ROOT se publie tel quel derrière le tunnel Cloudflare (BASE_URL pointe dessus).
@@ -68,6 +71,20 @@ grep -v '^#' pack/mods.tsv | while IFS=$'\t' read -r slug folder _; do
     echo "  $slug → $folder"
     curl -sfL "$url" -o "$SERVER_DIR/fabricmods/$folder/${name:-$(basename "$url")}"
 done
+
+if [ -n "${LOCAL_MODS:-}" ]; then
+    shopt -s nullglob
+    jars=("$LOCAL_MODS"/*.jar)
+    shopt -u nullglob
+    if [ ${#jars[@]} -eq 0 ]; then
+        echo "LOCAL_MODS=$LOCAL_MODS ne contient aucun .jar : on ne monte pas de version incomplète." >&2
+        exit 1
+    fi
+    for jar in "${jars[@]}"; do
+        echo "  $(basename "$jar") (local) → required"
+        cp "$jar" "$SERVER_DIR/fabricmods/required/"
+    done
+fi
 
 if [ -n "${RESOURCE_PACK:-}" ]; then
     mkdir -p "$SERVER_DIR/files/resourcepacks"
