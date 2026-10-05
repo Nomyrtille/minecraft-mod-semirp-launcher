@@ -4,6 +4,7 @@ name: Sécurité
 # et chaque lundi, pour attraper une faille publiée après coup. Toutes les actions sont épinglées par empreinte.
 on:
   push:
+    branches: [master]
   pull_request:
   schedule:
     - cron: "30 5 * * 1"
@@ -11,6 +12,11 @@ on:
 
 permissions:
   contents: read
+
+concurrency:
+  # Une seule exécution par PR (la plus récente) ; sur la branche principale, rien n'est jamais annulé.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   dependencies:
