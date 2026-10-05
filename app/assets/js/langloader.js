@@ -6,7 +6,7 @@ const merge = require('lodash.merge')
 let lang
 
 exports.loadLanguage = function(id){
-    lang = merge(lang || {}, toml.parse(fs.readFileSync(path.join(__dirname, '..', 'lang', `${id}.toml`))) || {})
+    lang = merge(lang || {}, toml.parse(fs.readFileSync(path.join(__dirname, '..', 'lang', `${id}.toml`), 'utf8')) || {})
 }
 
 exports.query = function(id, placeHolders){

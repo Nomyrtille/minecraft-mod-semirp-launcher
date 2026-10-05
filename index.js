@@ -218,6 +218,48 @@ ipcMain.on(MSFT_OPCODE.OPEN_LOGOUT, (ipcEvent, uuid, isLastAccount) => {
     msftLogoutWindow.loadURL('https://login.microsoftonline.com/common/oauth2/v2.0/logout')
 })
 
+/**
+ * Sécurité : aucune fenêtre ne navigue hors de ce qui est prévu. La fenêtre du launcher reste sur ses
+ * fichiers locaux ; les fenêtres de connexion Microsoft restent sur les domaines de Microsoft ; aucune
+ * fenêtre ne s'ouvre en popup. Un lien https externe s'ouvre dans le navigateur, rien d'autre.
+ */
+const MICROSOFT_HOSTS = ['microsoftonline.com', 'microsoft.com', 'live.com', 'xboxlive.com', 'xbox.com',
+    'msauth.net', 'msftauth.net', 'msauthimages.net', 'msftauthimages.net', 'office.com', 'windows.net']
+
+function isMicrosoftUrl(url) {
+    try {
+        const u = new URL(url)
+        return u.protocol === 'https:' && MICROSOFT_HOSTS.some(h => u.hostname === h || u.hostname.endsWith('.' + h))
+    } catch {
+        return false
+    }
+}
+
+function openExternalSafely(url) {
+    try {
+        if (new URL(url).protocol === 'https:') {
+            shell.openExternal(url)
+        }
+    } catch {
+        // URL invalide : ignorée
+    }
+}
+
+app.on('web-contents-created', (_, contents) => {
+    contents.on('will-attach-webview', event => event.preventDefault())
+    contents.setWindowOpenHandler(({ url }) => {
+        openExternalSafely(url)
+        return { action: 'deny' }
+    })
+    contents.on('will-navigate', (event, url) => {
+        const allowed = url.startsWith('file:') || isMicrosoftUrl(url)
+            || url.startsWith(REDIRECT_URI_PREFIX)
+        if (!allowed) {
+            event.preventDefault()
+        }
+    })
+})
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win

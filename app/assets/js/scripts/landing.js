@@ -959,7 +959,8 @@ function displayArticle(articleObject, index){
 async function loadNews(){
 
     const distroData = await DistroAPI.getDistribution()
-    if(!distroData.rawDistribution.rss) {
+    // Sécurité : seul un flux https est lu (le contenu des articles est inséré dans la page).
+    if(!/^https:\/\//.test(distroData.rawDistribution.rss || '')) {
         loggerLanding.debug('No RSS feed provided.')
         return null
     }
