@@ -1,0 +1,10 @@
+# OSV-Scanner (job « Sécurité » de la CI). Une vulnérabilité ne s'ignore qu'avec sa raison et une date de
+# réexamen : à l'échéance, elle refait échouer la CI.
+
+# http-cache-semantics ≤ 4.2.0 : aucune version corrigée publiée au 2026-10-05. La faille ne touche qu'un
+# cache HTTP PARTAGÉ entre utilisateurs (max-stale) ; ici le paquet arrive via got → cacheable-request
+# (helios-core), sans cache partagé, dans un client utilisé par une seule personne.
+[[IgnoredVulns]]
+id = "GHSA-ch52-4w7c-c8xp"
+ignoreUntil = 2026-11-05
+reason = "Pas de correctif publié ; aucun cache HTTP partagé dans le launcher (got/cacheable-request via helios-core)"
