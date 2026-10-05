@@ -3,4 +3,5 @@
 # slug Modrinth	dossier Nebula	pourquoi
 fabric-api	required	dépendance de Simple Voice Chat
 simple-voice-chat	required	chat vocal de proximité (même version majeure que le plugin serveur)
+# + myrtille-city (required) : téléphone et interface, dépôt privé Nomyrtille/myrtille-city-mod, ajouté par LOCAL_MODS (pas Modrinth)
 sodium	optionalon	performances ; le joueur peut le désactiver dans les réglages du launcher
