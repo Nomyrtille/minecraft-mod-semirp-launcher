@@ -298,6 +298,9 @@ selectAnotherAccountButton = "Choisir un autre compte"
 checkingForUpdateButton = "Recherche de mises à jour..."
 installNowButton = "Installer maintenant"
 checkForUpdatesButton = "Rechercher des mises à jour"
+landingDownloadButton = "Télécharger la mise à jour {version}"
+landingDownloadingButton = "Téléchargement de la mise à jour {version}… {percent} %"
+landingInstallButton = "Redémarrer et installer la mise à jour {version}"
 
 [js.auth.microsoft.error]
 noProfileTitle = "Erreur à la connexion :<br>profil non créé"
