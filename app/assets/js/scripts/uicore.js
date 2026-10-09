@@ -90,13 +90,15 @@ if(!isDev){
                 ipcRenderer.send('autoUpdateAction', 'checkForUpdate')
                 break
             case 'realerror':
-                if(info != null && info.code != null){
+                if(info != null && info.code == null){
+                    loggerAutoUpdater.error('Error during update check..', info.message)
+                } else if(info != null){
                     if(info.code === 'ERR_UPDATER_INVALID_RELEASE_FEED'){
                         loggerAutoUpdater.info('No suitable releases found.')
                     } else if(info.code === 'ERR_XML_MISSED_ELEMENT'){
                         loggerAutoUpdater.info('No releases found.')
                     } else {
-                        loggerAutoUpdater.error('Error during update check..', info)
+                        loggerAutoUpdater.error('Error during update check..', info.code, info.message)
                         loggerAutoUpdater.debug('Error Code:', info.code)
                     }
                 }

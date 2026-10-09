@@ -16,6 +16,15 @@ const LangLoader                        = require('./app/assets/js/langloader')
 // Setup Lang
 LangLoader.setupLanguage()
 
+// IPC drops the custom fields of an Error (code...): send a plain object so the renderer can log it.
+function serializeUpdateError(err) {
+    if(err == null) {
+        return null
+    }
+    console.error('Auto updater error:', err)
+    return { code: err.code ?? null, message: err.message ?? String(err), stack: err.stack ?? null }
+}
+
 // Setup auto updater.
 function initAutoUpdater(event, data) {
 
@@ -49,7 +58,7 @@ function initAutoUpdater(event, data) {
         event.sender.send('autoUpdateNotification', 'checking-for-update')
     })
     autoUpdater.on('error', (err) => {
-        event.sender.send('autoUpdateNotification', 'realerror', err)
+        event.sender.send('autoUpdateNotification', 'realerror', serializeUpdateError(err))
     }) 
 }
 
@@ -64,7 +73,7 @@ ipcMain.on('autoUpdateAction', (event, arg, data) => {
         case 'checkForUpdate':
             autoUpdater.checkForUpdates()
                 .catch(err => {
-                    event.sender.send('autoUpdateNotification', 'realerror', err)
+                    event.sender.send('autoUpdateNotification', 'realerror', serializeUpdateError(err))
                 })
             break
         case 'allowPrereleaseChange':
