@@ -8,3 +8,11 @@
 id = "GHSA-ch52-4w7c-c8xp"
 ignoreUntil = 2026-11-05
 reason = "Pas de correctif publié ; aucun cache HTTP partagé dans le launcher (got/cacheable-request via helios-core)"
+
+# sprintf-js ≤ 1.1.3 : aucune version corrigée publiée au 2026-10-10. Déni de service seulement si un attaquant
+# contrôle la chaîne de format. Dépendance de BUILD uniquement (electron-builder → @electron/get →
+# global-agent → roarr), absente du launcher distribué, et appelée avec des formats fixes.
+[[IgnoredVulns]]
+id = "GHSA-hp3w-g68c-fv3c"
+ignoreUntil = 2026-11-10
+reason = "Pas de correctif publié ; dépendance de build seulement (electron-builder), formats non contrôlables"
