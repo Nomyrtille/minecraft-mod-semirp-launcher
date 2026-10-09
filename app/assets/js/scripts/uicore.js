@@ -100,6 +100,9 @@ if(!isDev){
                         loggerAutoUpdater.debug('Error Code:', info.code)
                     }
                 }
+                // Give the button back instead of leaving it stuck on "Checking for updates...":
+                // e.g. a release published without its installers (no latest.yml).
+                settingsUpdateButtonStatus(Lang.queryJS('uicore.autoUpdate.checkForUpdatesButton'))
                 break
             default:
                 loggerAutoUpdater.info('Unknown argument', arg)
