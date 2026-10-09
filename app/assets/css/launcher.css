@@ -2472,6 +2472,33 @@ input:checked + .toggleSwitchSlider:before {
     width: 70%;
     height: 100%;
 }
+/* Launcher update button (ticket #3), shown when a new version is available. */
+#landingContainer > #upper > #content {
+    justify-content: center;
+    align-items: flex-start;
+}
+#launcherUpdateButton {
+    margin-top: 20px;
+    padding: 8px 18px;
+    background: rgba(126, 87, 194, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 900;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.25s ease;
+    outline: none;
+}
+#launcherUpdateButton:hover,
+#launcherUpdateButton:focus {
+    box-shadow: 0px 0px 12px rgba(255, 255, 255, 0.6);
+}
+#launcherUpdateButton:disabled {
+    cursor: default;
+    opacity: 0.8;
+    box-shadow: none;
+}
 #landingContainer > #upper > #right {
     display: inline-flex;
     width: 15%;

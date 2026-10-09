@@ -46,10 +46,18 @@ if(!isDev){
                 break
             case 'update-available':
                 loggerAutoUpdater.info('New update available', info.version)
+                launcherUpdateVersion = info.version
                 
                 if(process.platform === 'darwin'){
-                    info.darwindownload = `https://github.com/Nomyrtille/minecraft-mod-semirp-launcher/releases/download/v${info.version}/MyrtilleCity-setup-${info.version}${process.arch === 'arm64' ? '-arm64' : '-x64'}.dmg`
+                    // Same name as electron-builder.yml (mac.artifactName: MyrtilleCity-${arch}.${ext})
+                    info.darwindownload = `https://github.com/Nomyrtille/minecraft-mod-semirp-launcher/releases/download/v${info.version}/MyrtilleCity-${process.arch === 'arm64' ? 'arm64' : 'x64'}.dmg`
                     showUpdateUI(info)
+                    showLandingUpdateButton(Lang.queryJS('uicore.autoUpdate.landingDownloadButton', {version: info.version}), () => {
+                        shell.openExternal(info.darwindownload)
+                    })
+                } else {
+                    // Windows and Linux download the update in the background.
+                    showLandingUpdateButton(Lang.queryJS('uicore.autoUpdate.landingDownloadingButton', {version: info.version, percent: 0}))
                 }
                 
                 populateSettingsUpdateInformation(info)
@@ -62,6 +70,14 @@ if(!isDev){
                     }
                 })
                 showUpdateUI(info)
+                showLandingUpdateButton(Lang.queryJS('uicore.autoUpdate.landingInstallButton', {version: info.version}), () => {
+                    ipcRenderer.send('autoUpdateAction', 'installUpdateNow')
+                })
+                break
+            case 'download-progress':
+                if(info != null && launcherUpdateVersion != null){
+                    showLandingUpdateButton(Lang.queryJS('uicore.autoUpdate.landingDownloadingButton', {version: launcherUpdateVersion, percent: Math.floor(info.percent)}))
+                }
                 break
             case 'update-not-available':
                 loggerAutoUpdater.info('No new update found.')
@@ -104,7 +120,27 @@ function changeAllowPrerelease(val){
     ipcRenderer.send('autoUpdateAction', 'allowPrereleaseChange', val)
 }
 
+let launcherUpdateVersion = null
+
+/**
+ * Show the launcher update button on the landing page (ticket #3).
+ *
+ * @param {string} label Button text.
+ * @param {Function} onClick Click handler. Without one, the button is shown disabled.
+ */
+function showLandingUpdateButton(label, onClick){
+    const btn = document.getElementById('launcherUpdateButton')
+    if(btn == null){
+        return
+    }
+    btn.innerHTML = label
+    btn.disabled = onClick == null
+    btn.onclick = onClick == null ? null : onClick
+    btn.style.display = ''
+}
+
 function showUpdateUI(info){
+    launcherUpdateVersion = info.version
     //TODO Make this message a bit more informative `${info.version}`
     document.getElementById('image_seal_container').setAttribute('update', true)
     document.getElementById('image_seal_container').onclick = () => {

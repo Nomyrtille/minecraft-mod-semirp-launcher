@@ -154,6 +154,9 @@ Les fichiers portent toujours le même nom (`MyrtilleCity-Setup.exe`, `MyrtilleC
    (`git tag v0.2.0 && git push origin v0.2.0`) marche aussi.
 3. La release est publique dès la fin du build. Les launchers Windows et Linux déjà installés se mettent à jour
    seuls ; sous macOS, le launcher propose de télécharger le nouveau dmg.
+   Le launcher cherche une mise à jour à l'ouverture puis toutes les 30 minutes ; dès qu'une version est
+   disponible, un bouton apparaît sur l'accueil : progression du téléchargement, puis « Redémarrer et installer
+   la mise à jour » (Windows, Linux) ou « Télécharger la mise à jour » (macOS, ouvre le bon dmg).
 
 Le dépôt étant public, les minutes de GitHub Actions sont gratuites.
 
