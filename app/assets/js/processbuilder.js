@@ -717,6 +717,11 @@ class ProcessBuilder {
         const nativesRegex = /.+:natives-([^-]+)(?:-(.+))?/
         const libs = {}
 
+        // Minecraft 26.x points java.library.path at a sub folder (-Djava.library.path=${natives_directory}/java):
+        // extract the natives where the game will look for them, otherwise LWJGL fails with
+        // "Failed to locate library: lwjgl.dll" (ticket #4).
+        tempNativePath = path.join(tempNativePath, this._nativesLibrarySubPath())
+
         const libArr = this.vanillaManifest.libraries
         fs.ensureDirSync(tempNativePath)
         for(let i=0; i<libArr.length; i++){
@@ -822,6 +827,25 @@ class ProcessBuilder {
         }
 
         return libs
+    }
+
+    /**
+     * Sub folder of ${natives_directory} used by the java.library.path JVM argument of the version
+     * manifest ('java' since Minecraft 26.x, '' before).
+     *
+     * @returns {string} The relative sub path, possibly empty.
+     */
+    _nativesLibrarySubPath(){
+        const jvmArgs = this.vanillaManifest.arguments?.jvm ?? []
+        for(const arg of jvmArgs){
+            if(typeof arg === 'string'){
+                const match = /^-Djava\.library\.path=\$\{natives_directory\}[\\/]?(.*)$/.exec(arg)
+                if(match != null){
+                    return match[1]
+                }
+            }
+        }
+        return ''
     }
 
     /**
